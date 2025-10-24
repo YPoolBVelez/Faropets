@@ -1,0 +1,91 @@
+﻿@page
+@model DetailsModel
+@{
+    var image = "data:image/jpg:base64," + Convert.ToBase64String(Model.Input.DataClient.Image, 0,
+        Model.Input.DataClient.Image.Length);
+    var name = Model.Input.DataClient.Nombre + "" + Model.Input.DataClient.Apellido;
+
+}
+<div class="container">
+    <h1>@name</h1>
+    <div class="row">
+        <div class="col-sm">
+            <div class="card text-center" style="width: 21rem;">
+                <div class="card-header">
+                    <img class="imageUserDetails" src="@image" />
+                </div>
+                <div class="card-body">
+                    <div class="col-md-10">
+                        <div class="row">
+                            <p>@Model.Input.DataClient.Nombre</p>
+                        </div>
+                        <div class="row">
+                            <p>Credit:</p>
+                            &nbsp;
+                            @if (Model.Input.DataClient.Credito)
+                            {
+                                <p class="text-success">Disponible</p>
+                            }
+                            else
+                            {
+                                <p class="text-danger">No Disponible</p>
+                            }
+                        </div>
+                        <div class="row">
+                            <a asp-area="Clientes" asp-page="Reports" 
+                               asp-route-id="@Model.Input.DataClient.IdCliente" 
+                               class="btn btn-primary">Reportes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body">
+                    <table class="tableFaropets">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Informacion
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Nombre
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>@name</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Correo Electronico
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>@Model.Input.DataClient.Email</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <form asp-area="Clientes" aps-page="Register" method="post">
+                                        @{
+                                            var DataClient = JsonConvert.SerializeObject(Model.Input.DataClient);
+                                        }
+
+                                        <input type="hidden" name="DataUser" value="@DataClient" />
+                                        <input type="submit" v value="Editar" class="btn btn-outline-success" />
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
